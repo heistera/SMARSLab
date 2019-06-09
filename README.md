@@ -1,4 +1,6 @@
 # SMARSLab
+![Build Status](https://travis-ci.org/kevinmcaleer/SMARSLab.svg?branch=master)
+
 SMARS Lab - A simple web app for playing with SMARS Robots.
 
 To Install:
