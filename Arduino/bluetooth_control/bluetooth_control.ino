@@ -21,7 +21,7 @@ char inChar=-1; // initalise the first character as nothing
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600, SERIAL_8N1);
-  Serial.println("SMARSFan OS 1.1");
+  Serial.println("SMARSFan OS 1.2");
   Serial.println("---------------");
 
   // establish motor direction toggle pins
@@ -149,7 +149,7 @@ void loop()
       forward();
     }
     else if (state == 'd') {
-      backward(); 
+      backward();
     }
     else if (state == 'l') {
       left();
