@@ -14,6 +14,9 @@ int ch_B_speed = 11;
 char state = 0;
 int delaylength = 1000;
 int buzzerPin = 4;
+#define BUFFER_SIZE = 64; // this will prevent buffer overruns
+char inData[BUFFER_SIZE]; // this is a character buffer
+char inChar=-1; // initalise the first character as nothing
 
 void setup() {
   // put your setup code here, to run once:
@@ -31,6 +34,7 @@ void setup() {
 }
 
 void buzz(){
+  Serial.println("Buzzer: Sound")
   digitalWrite(buzzerPin, HIGH);
   delay(delaylength / 2);
   digitalWrite(buzzerPin, LOW);
@@ -38,6 +42,8 @@ void buzz(){
 
 void forward() {
   // Move Forward
+
+  Serial.println("MOTORS: UP");
   digitalWrite(ch_A_Direction, LOW); // set direction to forward
   digitalWrite(ch_B_Direction, HIGH); // set direction to forward
 
@@ -55,7 +61,7 @@ void forward() {
 
 void backward() {
   // Move Backward
-
+  Serial.println("MOTORS: DOWN");
   digitalWrite(ch_A_Direction, HIGH); // set direction to backward
   digitalWrite(ch_B_Direction, LOW); // set direction to backward
 
@@ -72,7 +78,7 @@ void backward() {
 
 void left() {
   // Move left
-
+  Serial.println("MOTORS: LEFT");
   digitalWrite(ch_A_Direction, HIGH); // set direction to left
   digitalWrite(ch_B_Direction, HIGH); // set direction to left
 
@@ -89,7 +95,7 @@ void left() {
 
 void right() {
   // Move right
-
+  Serial.println("MOTORS: RIGHT");
   digitalWrite(ch_A_Direction, LOW); // set direction to right
   digitalWrite(ch_B_Direction, LOW); // set direction to right
 
@@ -106,7 +112,7 @@ void right() {
 
 void fullstop() {
   // stop!
-
+  Serial.println("MOTORS: STOP");
   digitalWrite(ch_A_Direction, HIGH); // set direction to right
   digitalWrite(ch_B_Direction, HIGH); // set direction to right
 
@@ -118,45 +124,50 @@ void fullstop() {
   //  Serial.flush();
 }
 
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
-  if (Serial.available() > 0 ) {
-    state = Serial.read();
-    Serial.println(state);
-
+  int i=0;
+  byte byte_count=Serial.available();
+  if (byte_count)
+  {
+    int first_byte=byte_count;
+    int remaining_bytes=0;
+    if(first_byte>=BUFFER_SIZE-1)
+    {
+      remaining_bytes=byte_count-(BUFFER_SIZE-1);
+    }
+    for(i=0;i<first_byte;i++)
+    {
+      inChar=Serial.read(); // read one byte
+      inData[i]=inChar;
+      Serial.println(state);
+    }
+    inData[i]='\0'; // terminate the string
+    state = inData;
     if (state == 'u') {
-      Serial.println("MOTORS: UP");
-      forward(); // move forward
-      state = 0;
+      forward();
     }
-
     else if (state == 'd') {
-      Serial.println("MOTORS: DOWN");
-      backward();
-      state = 0;
+      backward(); 
     }
-
     else if (state == 'l') {
-      Serial.println("MOTORS: LEFT");
       left();
-      state = 0;
     }
-
     else if (state == 'r') {
-      Serial.println("MOTORS: RIGHT");
       right();
-      state = 0;
     }
-
     else if (state == "s") {
-      Serial.println("MOTORS: STOP");
       fullstop();
-      state = 0;
     else if (state == 'b') {
-      Serial.println("Buzzer: Sound")
       buzz()
-      state = 0;
     }
+    for(i=0;i<remaining_bytes;i++)
+    {
+      inChar=Serial.read(); // burn off any remaining bytes
+    }
+    // state = 0;
+
     }
   }
 }

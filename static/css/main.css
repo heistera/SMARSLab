@@ -4,3 +4,6 @@
   background: #FF5800;
   color: #ffffff;
 }
+html,body {
+  height: 100%;
+}
