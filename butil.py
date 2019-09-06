@@ -26,6 +26,7 @@ if CONNECTED:
         if NB == "s":
             BLUETOOTH.write(b'd') # down
         if NB == "a":
+            print(b'l')
             BLUETOOTH.write(b'l') # left
         if NB == "d":
             BLUETOOTH.write(b'r') # right
@@ -33,6 +34,7 @@ if CONNECTED:
         # BLUETOOTH.flushInput()
         note = BLUETOOTH.readline()
         print(note.decode('ascii'))
+        print(note)
         # print(str(chr(note)))
         time.sleep(DELAY)
     # while True:

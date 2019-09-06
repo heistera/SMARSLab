@@ -14,8 +14,8 @@ int ch_B_speed = 11;
 char state = 0;
 int delaylength = 1000;
 int buzzerPin = 4;
-#define BUFFER_SIZE = 64; // this will prevent buffer overruns
-char inData[BUFFER_SIZE]; // this is a character buffer
+//#define BUFFER_SIZE = 64; // this will prevent buffer overruns
+//char inData[BUFFER_SIZE]; // this is a character buffer
 char inChar=-1; // initalise the first character as nothing
 
 void setup() {
@@ -34,7 +34,7 @@ void setup() {
 }
 
 void buzz(){
-  Serial.println("Buzzer: Sound")
+  Serial.println("Buzzer: Sound");
   digitalWrite(buzzerPin, HIGH);
   delay(delaylength / 2);
   digitalWrite(buzzerPin, LOW);
@@ -129,38 +129,47 @@ void loop()
   // put your main code here, to run repeatedly:
   int i=0;
   byte byte_count=Serial.available();
+  Serial.println(byte_count);
   if (byte_count)
   {
     int first_byte=byte_count;
     int remaining_bytes=0;
-    if(first_byte>=BUFFER_SIZE-1)
-    {
-      remaining_bytes=byte_count-(BUFFER_SIZE-1);
-    }
-    for(i=0;i<first_byte;i++)
-    {
-      inChar=Serial.read(); // read one byte
-      inData[i]=inChar;
-      Serial.println(state);
-    }
-    inData[i]='\0'; // terminate the string
-    state = inData;
-    if (state == 'u') {
+//    if(first_byte>=BUFFER_SIZE-1)
+//    {
+//      remaining_bytes=byte_count-(BUFFER_SIZE-1);
+//    }
+
+//    wrong ! do not need to build and array, just read each chararcter one at a time and act on it.
+//    for(i=0;i<first_byte;i++)
+//    {
+//      inChar=Serial.read(); // read one byte
+//      inData[i]=inChar;
+//      Serial.println(state);
+//    }
+
+    inChar = Serial.read();
+    Serial.println(inChar);
+
+//    inData[i]='\0'; // terminate the string
+
+//    state = inData;
+    if (inChar == 'u') {
       forward();
     }
-    else if (state == 'd') {
+    else if (inChar == 'd') {
       backward();
     }
-    else if (state == 'l') {
+    else if (inChar == 'l') {
       left();
     }
-    else if (state == 'r') {
+    else if (inChar == 'r') {
       right();
     }
-    else if (state == "s") {
+    else if (inChar == "s") {
       fullstop();
-    else if (state == 'b') {
-      buzz()
+    }
+    else if (inChar == 'b') {
+      buzz();
     }
     for(i=0;i<remaining_bytes;i++)
     {
@@ -170,4 +179,3 @@ void loop()
 
     }
   }
-}
