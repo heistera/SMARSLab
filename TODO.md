@@ -16,21 +16,27 @@
 1. Check it can walk forwards and backwards
 1. Check it can turn left
 1. Check it can turn right
+---
 
 ### Images needed
 
 * A picture of the raspberry pi wiring
 * A picture of the range (maybe a video/GIF)
+---
 
 ### Investigate other JS frameworks
 1. Use of grister.js
 1. Use of bootbox.js
 ---
 
-# Detect Bluetooth SMARS
+### Detect Bluetooth SMARS
 * Add bluetooth detection - difficult as no single bluetooth module works across windows/mac/linux
 * Send commands to Bluetooth SMARS
 * Add multiple SMARS
 * Control multiple SMARS
+---
 
-## One tab per SMARS Robot
+### One tab per SMARS Robot
+
+# Add rangefinder input via fundumoto connection
+ - return via a bluetooth command
