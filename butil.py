@@ -2,58 +2,45 @@
 import time
 import serial
 
+DELAY = 0.25
+
+def send_up():
+    BLUETOOTH.write('u'.encode('ascii')) # up
+    time.sleep(DELAY)
+    BLUETOOTH.flush()
+
+def send_down():
+    BLUETOOTH.write('d'.encode('ascii')) # down
+    time.sleep(DELAY)
+    BLUETOOTH.flush()
+
 CONNECTED = False
 print("Start")
 try:
-    PORT = "/dev/tty.HC-05-SPPDev"
-    BLUETOOTH = serial.Serial(PORT, 9600, timeout = 1)
+    PORT = "/dev/tty.SMARS-SPPDev"
+    BLUETOOTH = serial.Serial(PORT, 9600, timeout = 3,
+     xonxoff=False, parity=serial.PARITY_NONE, stopbits=1)
+    time.sleep(DELAY)
     print (BLUETOOTH)
     print("connected")
     CONNECTED = True
 except:
     print("Error connecting to Bluetooth port: " + PORT)
 
-DELAY = 2
-
 if CONNECTED:
     NB = "1"
     while NB != "q":
-        # BLUETOOTH.open()
         NB = ""
         NB = input('WASD: ')
+        NB = NB.strip()
+        print("Got: ", NB)
         if NB == "w":
-            BLUETOOTH.write(b'u') # up
+            send_up()
         if NB == "s":
-            BLUETOOTH.write(b'd') # down
+            send_down()
         if NB == "a":
-            print(b'l')
-            BLUETOOTH.write(b'l') # left
+            BLUETOOTH.write(bytes(b'l')) # left
         if NB == "d":
-            BLUETOOTH.write(b'r') # right
-        # print (str.encode())
-        # BLUETOOTH.flushInput()
-        note = BLUETOOTH.readline()
-        print(note.decode('ascii'))
-        print(note)
-        # print(str(chr(note)))
-        time.sleep(DELAY)
-    # while True:
-    #     BLUETOOTH.write(str.encode('u'))
-    #     print("up")
-        # time.sleep(DELAY)
-    #     BLUETOOTH.flushInput()
-    #
-    #     BLUETOOTH.write(str.encode('d'))
-    #     print("down")
-        # time.sleep(DELAY)
-    #     BLUETOOTH.flushInput()
-    #
-    #     BLUETOOTH.write(str.encode('l'))
-    #     print("left")
-        # time.sleep(DELAY)
-    #     BLUETOOTH.flushInput()
-    #
-    #     BLUETOOTH.write(str.encode('r'))
-    #     print("right")
-        # time.sleep(DELAY)
-    #     BLUETOOTH.flushInput()
+            BLUETOOTH.write(bytes(b'r')) # right
+        if NB == 'b':
+            BLUETOOTH.write(bytes(b'b'))

@@ -3,7 +3,22 @@
 // April 2019
 // May 2019 - added buzzer feature
 // Requires a Fundomoto sheild
+// September 2019 - use software serial for bluetooth module, using builtin rx/tx with bluetooth causes garbage on rx
 
+//const int left_motor_direction = 13;
+//const int right_motor_direction = 12;
+//const int right_motor_PWM = 10;
+//const int left_motor_PWM = 11;
+//const int pan_servo_pin = 9;
+//const int echoPin = 8;
+//const int triggerPin = 7;
+//const int buzzer = 4;
+//const int tilt_servo_pin = 6;
+//const int left_motor_IR_sensor_pin = 2;
+//const int right_motor_IR_sensor_pin = 3;
+
+#include "SoftwareSerial.h"
+SoftwareSerial MyBlue(2, 3); // RX | TX 
 
 //int ch_A_Brake = 9;
 //int ch_B_Brake = 8;
@@ -21,8 +36,9 @@ char inChar=-1; // initalise the first character as nothing
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600, SERIAL_8N1);
-  Serial.println("SMARSFan OS 1.2");
+  Serial.println("SMARSFan OS 1.3");
   Serial.println("---------------");
+  MyBlue.begin(9600);  //Baud Rate for AT-command Mode.  
 
   // establish motor direction toggle pins
   pinMode(ch_A_Direction, OUTPUT);
@@ -31,12 +47,17 @@ void setup() {
   // establish motor brake pins
   //  pinMode(ch_A_Brake, OUTPUT);
   //  pinMode(ch_B_Brake, OUTPUT);
+
+  pinMode(buzzerPin, OUTPUT);
+//   buzz();
+//   delay(delaylength/10);
+//   buzz();
 }
 
 void buzz(){
   Serial.println("Buzzer: Sound");
   digitalWrite(buzzerPin, HIGH);
-  delay(delaylength / 2);
+  delay(delaylength / 10);
   digitalWrite(buzzerPin, LOW);
 }
 
@@ -126,56 +147,53 @@ void fullstop() {
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  int i=0;
-  byte byte_count=Serial.available();
-  Serial.println(byte_count);
-  if (byte_count)
+  bool isData = false;
+  inChar = "";
+  // from bluetooth to terminal
+  if (MyBlue.available()) 
   {
-    int first_byte=byte_count;
-    int remaining_bytes=0;
-//    if(first_byte>=BUFFER_SIZE-1)
-//    {
-//      remaining_bytes=byte_count-(BUFFER_SIZE-1);
-//    }
-
-//    wrong ! do not need to build and array, just read each chararcter one at a time and act on it.
-//    for(i=0;i<first_byte;i++)
-//    {
-//      inChar=Serial.read(); // read one byte
-//      inData[i]=inChar;
-//      Serial.println(state);
-//    }
-
-    inChar = Serial.read();
-    Serial.println(inChar);
-
-//    inData[i]='\0'; // terminate the string
-
-//    state = inData;
-    if (inChar == 'u') {
-      forward();
-    }
-    else if (inChar == 'd') {
-      backward();
-    }
-    else if (inChar == 'l') {
-      left();
-    }
-    else if (inChar == 'r') {
-      right();
-    }
-    else if (inChar == "s") {
-      fullstop();
-    }
-    else if (inChar == 'b') {
-      buzz();
-    }
-    for(i=0;i<remaining_bytes;i++)
-    {
-      inChar=Serial.read(); // burn off any remaining bytes
-    }
-    // state = 0;
-
-    }
+    inChar = MyBlue.read();
+    Serial.write(MyBlue);
+    isData = true;
   }
+  if(Serial.available())
+  {
+    MyBlue.write(Serial.read());
+  }
+
+    if(isData)
+    {
+      isData = false;
+//       MyBlue.read();
+//      int value = inChar;
+//      Serial.print("Value:");
+//      Serial.print(value);
+//      Serial.print(" Character:");
+//      Serial.println(inChar);
+      if (inChar == 'u') 
+      {
+        forward();
+      }
+      else if (inChar == 'd') 
+      {
+        backward();
+      }
+      else if (inChar == 'l') 
+      {
+        left();
+      }
+      else if (inChar == 'r') 
+      {
+        right();
+      }
+      else if (inChar == "s") 
+      {
+        fullstop();
+      }
+      else if (inChar == 'b') 
+      {
+        buzz();
+      }
+  }
+}
+ 
