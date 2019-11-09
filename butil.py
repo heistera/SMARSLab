@@ -47,7 +47,7 @@ if CONNECTED:
         if NB == "b":
             BLUETOOTH.write(bytes(b'b')) # buzz
         if NB == "u":
-            print("got U")
+            # print("got U")
             BLUETOOTH.write(bytes(b'u')) # rangefind
             time.sleep(0.1)
 
