@@ -1,6 +1,7 @@
 """ SMARS Bluetooth test utility """
 import time
 import serial
+import yaml
 
 DELAY = 0.25
 
@@ -14,12 +15,20 @@ def send_down():
     time.sleep(DELAY)
     BLUETOOTH.flush()
 
+def yaml_loader(filepath):
+    with open(filepath, "r") as file_descriptor:
+        data = yaml.load(file_descriptor, Loader=yaml.SafeLoader)
+    return data
+
 CONNECTED = False
 print("Start")
+# PORT = "/dev/tty.SMARS-SPPDev"
+CONFIG_FILE = 'config.yml'
 try:
-    PORT = "/dev/tty.SMARS-SPPDev"
-    # BLUETOOTH = serial.Serial(PORT, 9600, timeout = 3,
-    #  xonxoff=False, parity=serial.PARITY_NONE, stopbits=1)
+    data = yaml_loader(CONFIG_FILE)
+    PORT = data['smars']['bluetooth']
+    print(f'Connecting to port { PORT }')
+
     BLUETOOTH = serial.Serial(PORT, 9600, parity=serial.PARITY_NONE, stopbits=1)
     time.sleep(DELAY)
     print (BLUETOOTH)

@@ -1,0 +1,7 @@
+# config.yml
+# Kevin McAleer November 2019
+# use to set parameters for SMARSLab
+
+smars:
+  bluetooth: /dev/tty.SMARS-SPPDev
+  name: "Red One"
