@@ -1,3 +1,8 @@
+"""
+Bluetooth utility, 2
+Used to test connectivity to SMARS Bluetooth module
+"""
+
 import time
 import serial
 

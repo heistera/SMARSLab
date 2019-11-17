@@ -6,16 +6,19 @@ import yaml
 DELAY = 0.25
 
 def send_up():
+    """ send up command """
     BLUETOOTH.write('u'.encode('ascii')) # up
     time.sleep(DELAY)
     BLUETOOTH.flush()
 
 def send_down():
+    """ send down command """
     BLUETOOTH.write('d'.encode('ascii')) # down
     time.sleep(DELAY)
     BLUETOOTH.flush()
 
 def yaml_loader(filepath):
+    """ load yaml file """
     with open(filepath, "r") as file_descriptor:
         data = yaml.load(file_descriptor, Loader=yaml.SafeLoader)
     return data
@@ -24,6 +27,8 @@ CONNECTED = False
 print("Start")
 # PORT = "/dev/tty.SMARS-SPPDev"
 CONFIG_FILE = 'config.yml'
+
+# try to load the yaml config file
 try:
     data = yaml_loader(CONFIG_FILE)
     PORT = data['smars']['bluetooth']
@@ -44,22 +49,24 @@ if CONNECTED:
         NB = ""
         NB = input('WASD: ')
         NB = NB.strip()
-        # print("Got: ", NB)
         if NB == "w":
             send_up()
         if NB == "s":
             send_down()
         if NB == "a":
-            BLUETOOTH.write(bytes(b'l')) # left
+            # left
+            BLUETOOTH.write(bytes(b'l'))
         if NB == "d":
-            BLUETOOTH.write(bytes(b'r')) # right
+            # right
+            BLUETOOTH.write(bytes(b'r'))
         if NB == "b":
-            BLUETOOTH.write(bytes(b'b')) # buzz
+            # buzz
+            BLUETOOTH.write(bytes(b'b'))
         if NB == "u":
-            # print("got U")
-            BLUETOOTH.write(bytes(b'u')) # rangefind
+            # rangefind
+            BLUETOOTH.write(bytes(b'u'))
             time.sleep(0.1)
 
-            # distance = ""
-            distance = BLUETOOTH.readline() # get distance in cm
+            # get distance in cm
+            distance = BLUETOOTH.readline()
             print(f"distance is: {distance}")

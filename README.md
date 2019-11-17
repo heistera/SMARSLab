@@ -3,7 +3,14 @@
 
 SMARS Lab - A simple web app for playing with SMARS Robots.
 
-To Install:
+# Contents
+ - [Install](to-install)
+ - [New Configuration File](new-configuration-file)
+
+---
+
+[](#To-Install)
+[To Install](#to-install):
 * log on to your raspberry pi
 * clone the SMARS Lab github repository:
  `git clone https://www.github.com/kevinmcaleer/SMARSLab`
@@ -24,6 +31,13 @@ To Install:
 * Open a webbrowser at:
 either `http://localhost:5000` or `http://raspberrypi-IP-ADDRESS:5000`
 * Enjoy!
+
+ ---
+
+# [New Configuration file](#new-configuration-file)
+There is a new configuration file `config.yml` that can be used to set specific options for SMARS Lab. The options available are:
+- [x] bluetooth: <path to bluetooth device
+- [x] name: "<name of smars>"]
 
 # ERRATA
 Had to remove support for Python 3.3 as Flask is not compatible with this version.
