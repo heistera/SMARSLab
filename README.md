@@ -5,7 +5,7 @@ SMARS Lab - A simple web app for playing with SMARS Robots.
 
 # Contents
  - [Install](to-install)
- - [New Configuration File](new-configuration-file)
+ - [New Configuration File](#new-configuration-file)
 
 ---
 
