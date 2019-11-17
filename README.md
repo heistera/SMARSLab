@@ -7,7 +7,7 @@ SMARS Lab - A simple web app for playing with SMARS Robots.
  - [Install](#to-install)
  - [New Configuration File](#new-configuration-file)
  - [Errata](#errata)
- - [Arduino Bluetooth control](#arduino-bluetooth-control) 
+ - [Arduino Bluetooth control](#arduino-bluetooth-control)
 ---
 
 [To Install](#to-install):
@@ -43,10 +43,10 @@ There is a new configuration file `config.yml` that can be used to set specific 
 Had to remove support for Python 3.3 as Flask is not compatible with this version.
 
 # [Arduino Bluetooth control](#arduino-bluetooth-control)
-## version 1.3
+## Version 1.3
 // September 2019 - troubleshooting bluetooth control
 - fixed bluetooth control - use pins 2 & 3 and setup software serial for arduino
-## version 1.2
+## Version 1.2
 // September 2019 - troubleshooting bluetooth control
 ## Version 1.1
 // May 2019 - added buzzer feature
