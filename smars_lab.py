@@ -24,11 +24,6 @@ DRIVER = smars_library.smars_library.DONOTUSE_PCA_DRIVER
 COMMAND_HISTORY = CommandHistory()
 telemetry = []
 
-# TODO: what is this
-# APP.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///SMARSLABDB.db'
-# DB.init_app(APP)
-
-
 @APP.route("/")
 def index():
     """ render the main index template """
