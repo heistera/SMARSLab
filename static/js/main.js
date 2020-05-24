@@ -18,6 +18,7 @@ $(function (){
   });
 });
 
+// this is the control api code
 $('.control_button').on('click', function() {
   var controlId = $(this).attr('id');
   $.ajax({
